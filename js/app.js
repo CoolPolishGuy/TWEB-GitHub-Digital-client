@@ -9,30 +9,28 @@ let margin = {top: 20, right: 50, bottom: 30, left: 50};
 let width = 960 - margin.left - margin.right;
 let height = 500 - margin.top - margin.bottom;
 
-let parseDate = moment("YYY-MM-DDTHH:mm:ssZ").toDate();
+let parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
 let bisectDate = d3.bisector(function(d) { return d.date; }).left;
 let formatValue = d3.format(",.2f");
 let formatCurrency = function(d) { return "$" + formatValue(d); };
 
-const x = d3.time.scale()
+const x = d3.scaleUtc()
   .range([0, width]);
 
-const y = d3.scale.linear()
+const y = d3.scaleLinear()
   .range([height, 0]);
 
-const xAxis = d3.svg.axis()
-  .scale(x)
-  .orient("bottom");
+const xAxis = d3.axisBottom()
+  .scale(x);
 
-const yAxis = d3.svg.axis()
-  .scale(y)
-  .orient("left");
+const yAxis = d3.axisLeft()
+  .scale(y);
 
-const line = d3.svg.line()
+const line = d3.line()
   .x(function(d) { return x(d.date); })
   .y(function(d) { return y(d.price); });
 
-let svg = d3.select("body").append("svg")
+let svg = d3.select('#chart').append('svg')
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
 .append("g")
