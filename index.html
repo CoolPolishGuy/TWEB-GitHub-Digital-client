@@ -80,8 +80,21 @@
 
     <div class="blue" id="reposcommits">
         <section>
-            <h2>View of Information</h2>
-            <h3>We have collected some information about some of the most used repositories</h4>
+            <h2>What is Bitcoin?</h2>
+            <body align="center">
+                bicoin is the first decentralized digital currency. Bitcoins are digital coins
+                you can send trough the internet, compared to other alternatives they have a number
+                of advantages:<br>
+                 1. they are transferred directly from person to person via the net without going through a bank
+                  or a clearingouse. It reduces the fee<br>
+                  2. you can use them in every country<br>
+                  3. your account cannot be froze<br>
+                  4. There are no prerequisites or arbritary limits<br>
+                
+                Bitcoin was created in 2009:
+                A software developer called Satoshi Nakamoto proposed bitcoin, which was an electronic payment system based on mathematical proof.
+                The idea was to produce a currency independent of any central authority, transferable electronically, more or less instantly, with very low transaction fees.                
+                </body>
         </section>
         <div id="div-table"></div>
     </div>
@@ -91,8 +104,12 @@
             <h1>The following graphs are based on the most committed repository</h1>
             <h2>Commits during the days of week [last 12 months]</h2>
         </section>
-        <div id="bar-chart">
-            <canvas class="chart" id="canvas-bar-chart"></canvas>
+        
+        <div id="chart">
+            <svg width="960" height="500">
+
+            </svg>
+            
         </div>
     </div>
 
@@ -136,8 +153,12 @@
     <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/locale/sw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
     <!-- Theme JavaScript -->
     <script src="js/creative.min.js"></script>
+    
     <!-- custom adding data dynamic to page -->
+    <script src="js/app.js"></script>>
 </body>
 </html>
