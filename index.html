@@ -30,39 +30,6 @@
 
 </head>
 
-<style> /* set the CSS */
-    
-    body { font: 12px Arial;}
-    
-    path { 
-        stroke: steelblue;
-        stroke-width: 2;
-        fill: none;
-    }
-    
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: grey;
-        stroke-width: 1;
-        shape-rendering: crispEdges;
-    }
-    
-    div.tooltip {	
-        position: absolute;			
-        text-align: center;			
-        width: 120px;					
-        height: 48px;					
-        padding: 2px;				
-        font: 12px sans-serif;		
-        background: lightsteelblue;	
-        border: 0px;		
-        border-radius: 8px;			
-        pointer-events: none;			
-    }
-    
-    </style>
-
 <body id="page-top">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix-top">
         <div class="container-fluid">
@@ -158,6 +125,7 @@
             </p>
 
             <!-- 1er GRAPHIQUE ICI -->
+            <div id="chart" style="text-align: center"></div>
 
             <p>
                 Playing a bit with the graph above. We can see that prices in 2017 have literally exploded.
@@ -184,10 +152,7 @@
        
         </section>
         
-        <div id="chart">
-           
-            
-        </div>
+      
     </div>
 
     <div class="red">
@@ -202,11 +167,9 @@
         </p>
 
        
-        <div id="d3-ico">
-                <h1>RTest</h1>
-        </div>
-         <!-- 3e GRAPHIQUE ICI: taille = ROI et vert ou rouge dépends de la perte ou du gain -->
-
+        <!-- 3e GRAPHIQUE ICI: taille = ROI et vert ou rouge dépends de la perte ou du gain -->
+        <div id="icojs" style="text-align: center"></div>
+       
          <p>
          <!-- écrire un texte d'explication de graph et quelle sont les déductions qu'on peut en tirer-->
          </p>
