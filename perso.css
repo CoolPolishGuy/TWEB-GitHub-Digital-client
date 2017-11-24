@@ -21,6 +21,10 @@
   padding: 0 0 80px 0;
 }
 
+.x.brush > rect:not(.overlay) {
+  fill: red;
+}
+
 
 table, th, td {
   font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;
@@ -37,29 +41,54 @@ body {
 }
 
 .axis path,
-.axis line {
+.axis line, 
+.axis1 path,
+.axis1 line {
   fill: none;
-  stroke: #000;
+  stroke: #E6E7E8;
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
+.x.axis path, .x.axis1 path {
   display: none;
 }
 
 .line {
   fill: none;
-  stroke: steelblue;
   stroke-width: 1.5px;
 }
 
-.overlay {
-  fill: none;
-  pointer-events: all;
+.legend-box {
+  cursor: pointer;  
 }
 
-.focus circle {
+#mouse-tracker {
+  stroke: #E6E7E8;
+  stroke-width: 1px;
+}
+
+.hover-line { 
+  stroke: #E6E7E8;
   fill: none;
-  stroke: steelblue;
+  stroke-width: 1px;
+  left: 10px;
+  shape-rendering: crispEdges;
+  opacity: 1e-6;
+}
+
+.hover-text {
+  stroke: none;
+  font-size: 30px;
+  font-weight: bold;
+  fill: #000000;
+}
+
+.tooltip {
+  font-weight: normal;
+}
+
+.brush .extent {
+  stroke: #FFF;
+  shape-rendering: crispEdges;
 }
 
