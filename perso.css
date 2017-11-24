@@ -5,23 +5,26 @@
 }
 .blue {
   background-color: 	rgb(240,248,255);
-  text-align:center;
   padding: 0 0 80px 0;
 }
 
 .yellow {
   background-color: 	rgb(255, 255, 240);
-  text-align:center;
   padding: 0 0 80px 0;
 }
 
 .red {
   background-color: 	rgb(255, 240, 240);
-  text-align:center;
   padding: 0 0 80px 0;
 }
+ol,
+p {
 
-
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 40px 10% 0px 10%;
+}
 table, th, td {
   font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;
   font-size: 125%;
