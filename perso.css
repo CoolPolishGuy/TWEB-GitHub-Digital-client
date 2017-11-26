@@ -1,3 +1,17 @@
+body {
+  font: 10px sans-serif;
+  margin: 0;
+}
+
+.line2 {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+.area {
+  fill: #e7e7e7;
+}
 .chart {
   width: 50%;
   display: block;
