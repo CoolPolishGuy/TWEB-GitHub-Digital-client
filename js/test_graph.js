@@ -1,6 +1,6 @@
 const margin4 = { top: 8, right: 10, bottom: 2, left: 10 };
-const width3 = 960 - margin4.left - margin4.right;
-const height3 = 69 - margin4.top - margin4.bottom;
+const width3 = 1250 - margin4.left - margin4.right;
+const height3 = 100 - margin4.top - margin4.bottom;
 
 const parseDate3 = d3.timeParse('%b %Y');
 
