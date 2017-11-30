@@ -1,7 +1,7 @@
 
 const margin = { top: 20, right: 200, bottom: 100, left: 50 };
 const margin2 = { top: 430, right: 10, bottom: 20, left: 40 };
-const width = 1500 - margin.left - margin.right;
+const width = 1300 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 const height2 = 500 - margin2.top - margin2.bottom;
 

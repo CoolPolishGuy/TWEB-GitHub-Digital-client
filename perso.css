@@ -36,7 +36,7 @@ p {
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 20px;
   line-height: 1.5;
-  margin: 40px 10% 0px 10%;
+  margin: 40px 15% 0px 15%;
 }
 .x.brush > rect:not(.overlay) {
   fill: red;
@@ -124,4 +124,8 @@ div.tooltip {
 .arc path {
   stroke: rgb(255, 255, 240);
   stroke-width: 5px;
+}
+
+img {
+  margin: 20px 20px 20px 20px;
 }
