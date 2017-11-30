@@ -89,9 +89,7 @@ function buildGraph(res) {
     .text(function (d) { return d.data.label; });
 }
 
-
 function updatePieChart() {
-
 
   d3.selectAll(".pie-chart").remove()
 
@@ -115,21 +113,6 @@ function updatePieChart() {
 
   buildGraph(res)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function mouseover() {
   div.transition()
