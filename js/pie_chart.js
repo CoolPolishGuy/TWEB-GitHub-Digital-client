@@ -5,7 +5,7 @@ var site_dropdown = d3.select("#pie").append("div")
 var svg5 = d3.select("#pie").append("svg")
   .attr("class", "pie-chart")
   .attr('height', 600)
-  .attr('width', 600);
+  .attr('width', 800);
 
 var width5 = +svg5.attr("width");
 var height5 = +svg5.attr("height");
@@ -43,15 +43,19 @@ d3.csv("../data/moyenne_crypto_stock.csv", function (d) {
     .attr("value", function (d) { return d.values; })
     .text(function (d) { return d.date; });
 
-
-
-
-
-  let res = [
+  var res = [
     { label: 'crypto', count: parseFloat(data[0].values[0]) },
     { label: 'stock', count: parseFloat(data[0].values[1]) }
   ]
 
+  buildGraph(res)
+
+  d3.selectAll(".site-dropdown")
+    .selectAll("select")
+    .on("change", updatePieChart);
+});
+
+function buildGraph(res) {
   var arc = g.selectAll(".arc")
     .data(pie(res))
     .enter().append("g")
@@ -61,9 +65,9 @@ d3.csv("../data/moyenne_crypto_stock.csv", function (d) {
     .attr("d", path)
     .attr("fill", function (d) { return color1(d.data.count); })
     .transition().delay(function (d, i) {
-      return i * 500;
+      return i * 250;
     })
-    .duration(500)
+    .duration(250)
     .attrTween('d', function (d) {
       var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
       return function (t) {
@@ -81,14 +85,9 @@ d3.csv("../data/moyenne_crypto_stock.csv", function (d) {
     .attr("transform", function (d) { return "translate(" + label.centroid(d) + ")"; })
     .attr("dy", "0.35em")
     .transition()
-    .delay(1000)
+    .delay(500)
     .text(function (d) { return d.data.label; });
-
-  d3.selectAll(".site-dropdown")
-    .selectAll("select")
-    .on("change", updatePieChart);
-});
-
+}
 
 
 function updatePieChart() {
@@ -98,15 +97,13 @@ function updatePieChart() {
 
   svg5 = d3.select("#pie").append("svg")
     .attr("class", "pie-chart")
-    .attr('height', 520)
+    .attr('height', 600)
     .attr('width', 800);
 
-  width5 = +svg5.attr("width"),
-    height5 = +svg5.attr("height"),
-    radius = Math.min(width5, height5) / 2,
-    g = svg5.append("g").attr("transform", "translate(" + width5 / 2 + "," + height5 / 2 + ")");
-
-
+  width5 = +svg5.attr("width");
+  height5 = +svg5.attr("height");
+  radius = 520 / 2;
+  g = svg5.append("g").attr("transform", "translate(" + width5 / 2 + "," + height5 / 2 + ")");
 
   let repartition = this.options[this.selectedIndex].value;
   let crypto = repartition.substring(0, repartition.indexOf(','))
@@ -116,22 +113,22 @@ function updatePieChart() {
     { label: 'stock', count: parseFloat(stock) }
   ]
 
-  var arc = g.selectAll(".arc")
-    .data(pie(res))
-    .enter().append("g")
-    .attr("class", "arc");
-
-  arc.append("path")
-    .attr("d", path)
-    .attr("fill", function (d) { return color1(d.data.count); });
-
-
-
-  arc.append("text")
-    .attr("transform", function (d) { return "translate(" + label.centroid(d) + ")"; })
-    .attr("dy", "0.35em")
-    .text(function (d) { return d.data.label; });
+  buildGraph(res)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function mouseover() {
