@@ -120,3 +120,8 @@ div.tooltip {
   border-radius: 8px;			
   pointer-events: none;
 }
+
+.arc path {
+  stroke: rgb(255, 255, 240);
+  stroke-width: 5px;
+}
