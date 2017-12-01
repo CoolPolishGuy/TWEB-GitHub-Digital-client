@@ -129,8 +129,8 @@ d3.csv('data/data_all.csv',  (error, data) => {
   //append the brush for the selection of subsection  
   const brushElem = context.append('g')
     .attr('class', 'x brush')
-    .call(brush);
-  //end slider part-----------------------------------------------------------------------------------
+    .call(brush);  
+ //end slider part------------------------------------------
 
   // draw line graph
   svg.append('g')
