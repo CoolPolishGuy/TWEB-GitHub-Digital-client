@@ -2,7 +2,7 @@
 
   function loadData(cb) {
     console.log("Loading data");
-    d3.json("../data/ico.json", cb);
+    d3.json("data/ico.json", cb);
   }
 
   function doSequenceOfTasks(taskAreDone) {
