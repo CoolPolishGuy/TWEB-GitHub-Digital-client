@@ -28,7 +28,7 @@ var color1 = d3.scaleOrdinal(["#00ff99", "#ff3399"]);
 var div = d3.select("body").append("div")
   .attr("class", "tooltip")
 
-d3.csv("../data/moyenne_crypto_stock.csv", function (d) {
+d3.csv("data/moyenne_crypto_stock.csv", function (d) {
   return {
     date: d.date,
     values: [+d.Crypto, +d.Stock]
