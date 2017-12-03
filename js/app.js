@@ -1,4 +1,3 @@
-
 const margin = {
   top: 20, right: 200, bottom: 100, left: 50,
 };
@@ -10,7 +9,6 @@ const height = 500 - margin.top - margin.bottom;
 const height2 = 500 - margin2.top - margin2.bottom;
 
 const parseDate = d3.utcParse('%Y-%m-%dT%H:%M:%S.%LZ');
-const bisectDate = d3.bisector((d => d.date)).left;
 
 const xScale = d3.scaleUtc()
   .range([0, width]);
@@ -67,6 +65,17 @@ svg.append('defs')
   .attr('width', width)
   .attr('height', height);
 
+function findMaxY(data) { // Define function "findMaxY"
+  const maxYValues = data.map((d) => {
+    if (d.visible) {
+      return d3.max(d.values, value => // Return max rating value
+        value.rating);
+    }
+    return undefined;
+  });
+  return d3.max(maxYValues);
+}
+
 d3.csv('data/data_all.csv', (error, data) => {
   color.domain(d3.keys(data[0]).filter(key => key !== 'date'));
 
@@ -89,6 +98,39 @@ d3.csv('data/data_all.csv', (error, data) => {
   yScale.domain([0, maxValue]);
 
   xScale2.domain(xScale.domain()); // Setting a duplicate xdomain for brushing reference later
+  const issue = svg.selectAll('.issue')
+    .data(categories) // Select nested data and append to new svg group elements
+    .enter().append('g')
+    .attr('class', 'issue');
+
+  issue.append('path')
+    .attr('class', 'line')
+    .style('pointer-events', 'none') // Stop line interferring with cursor
+    .attr('id', d =>
+      `line-${d.name.replace(' ', '').replace('/', '')}`)
+    .attr('d', d => (d.visible ? line(d.values) : null))
+    .attr('clip-path', 'url(#clip)')
+    .style('stroke', d => color(d.name));
+  // for brusher of the slider bar at the bottom
+  function brushed() {
+    xScale.domain(d3.event.selection.map(xScale2.invert, xScale2));
+
+    svg.select('.x.axis') // replot xAxis with transition when brush used
+      .transition()
+      .call(xAxis);
+
+    maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+    yScale.domain([0, maxY]); // Redefine yAxis domain based on highest y
+
+    svg.select('.y.axis') // Redraw yAxis
+      .transition()
+      .call(yAxis);
+
+    issue.select('path') // Redraw lines based on brush xAxis scale and domain
+      .transition()
+      .attr('d', d => (d.visible ? line(d.values) : null));
+  }
+
 
   const brush = d3.brushX()
     .extent([[0, 0], [width, height2]])
@@ -110,7 +152,7 @@ d3.csv('data/data_all.csv', (error, data) => {
     .attr('d', contextArea(categories[0].values))
     .attr('fill', '#F1F1F2');
 
-  const brushElem = context.append('g')
+  context.append('g')
     .attr('class', 'x brush')
     .call(brush);
 
@@ -130,29 +172,14 @@ d3.csv('data/data_all.csv', (error, data) => {
     .attr('dy', '.71em')
     .style('text-anchor', 'end')
     .text('Issues Rating');
-
-  const issue = svg.selectAll('.issue')
-    .data(categories) // Select nested data and append to new svg group elements
-    .enter().append('g')
-    .attr('class', 'issue');
-
-  issue.append('path')
-    .attr('class', 'line')
-    .style('pointer-events', 'none') // Stop line interferring with cursor
-    .attr('id', d =>
-      `line-${d.name.replace(' ', '').replace('/', '')}`)
-    .attr('d', d => (d.visible ? line(d.values) : null))
-    .attr('clip-path', 'url(#clip)')
-    .style('stroke', d => color(d.name));
-
   // draw legend
   const legendSpace = 450 / categories.length; // 450/number of issues (ex. 40)
 
   issue.append('rect')
     .attr('width', 10)
     .attr('height', 10)
-    .attr('x', width + (margin.right / 3) - 15)
-    .attr('y', (d, i) => (legendSpace) + i * (legendSpace) - 8) // spacing
+    .attr('x', (width + (margin.right / 3)) - 15)
+    .attr('y', (d, i) => ((legendSpace) + (i * (legendSpace))) - 8) // spacing
     .attr('fill', d =>
       (d.visible ? color(d.name) : '#F1F1F2'))
     .attr('class', 'legend-box')
@@ -174,116 +201,10 @@ d3.csv('data/data_all.csv', (error, data) => {
       issue.select('rect')
         .transition()
         .attr('fill', d => (d.visible ? color(d.name) : '#F1F1F2'));
-    })
-
-    .on('mouseover', (d) => {
-      d3.select(this)
-        .transition()
-        .attr('fill', d => color(d.name));
-
-      d3.select(`#line-${d.name.replace(' ', '').replace('/', '')}`)
-        .transition()
-        .style('stroke-width', 2.5);
-    })
-
-    .on('mouseout', (d) => {
-      d3.select(this)
-        .transition()
-        .attr('fill', d => (d.visible ? color(d.name) : '#F1F1F2'));
-
-      d3.select(`#line-${d.name.replace(' ', '').replace('/', '')}`)
-        .transition()
-        .style('stroke-width', 1.5);
     });
 
   issue.append('text')
     .attr('x', width + (margin.right / 3))
-    .attr('y', (d, i) => (legendSpace) + i * (legendSpace)) // (return (11.25/2 =) 5.625) + i * (5.625)
+    .attr('y', (d, i) => (legendSpace) + (i * legendSpace)) // (return (11.25/2 =) 5.625) + i * (5.625)
     .text(d => d.name);
-
-  // Hover line
-  const hoverLineGroup = svg.append('g')
-    .attr('class', 'hover-line');
-
-  const hoverLine = hoverLineGroup // Create line with basic attributes
-    .append('line')
-    .attr('id', 'hover-line')
-    .attr('x1', 10).attr('x2', 10)
-    .attr('y1', 0)
-    .attr('y2', height + 10)
-    .style('pointer-events', 'none') // Stop line interferring with cursor
-    .style('opacity', 1e-6); // Set opacity to zero
-
-  const hoverDate = hoverLineGroup
-    .append('text')
-    .attr('class', 'hover-text')
-    .attr('y', height - (height - 40)) // hover date text position
-    .attr('x', width - 150) // hover date text position
-    .style('fill', '#E6E7E8');
-
-  const columnNames = d3.keys(data[0]) // grab the key values from your first data row
-    // these are the same as your column names
-    .slice(1); // remove the first column name (`date`);
-
-  // Add mouseover events for hover line.
-  d3.select('#mouse-tracker') // select chart plot background rect #mouse-tracker
-    .on('mousemove', mousemove) // on mousemove activate mousemove function defined below
-    .on('mouseout', () => {
-      hoverDate
-        .text(null); // on mouseout remove text for hover date
-
-      d3.select('#hover-line')
-        .style('opacity', 1e-6); // On mouse out making line invisible
-    });
-
-  function mousemove() {
-    const mouseX = d3.mouse(this)[0]; // Finding mouse x position on rect
-    const graphX = xScale.invert(mouseX);
-
-    const format = d3.utcParse('%Y-%m-%dT%H:%M:%S.%LZ');
-
-    hoverDate.text(format(graphX));
-
-    d3.select('#hover-line') // select hover-line and changing attributes to mouse position
-      .attr('x1', mouseX)
-      .attr('x2', mouseX)
-      .style('opacity', 1); // Making line visible
-
-    const x0 = xScale.invert(d3.mouse(this)[0]);
-    const i = bisectDate(data, x0, 1);
-    const d0 = data[i - 1];
-    const d1 = data[i];
-    const d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-  }
-
-  // for brusher of the slider bar at the bottom
-  function brushed() {
-    const selection = d3.event.selection;
-    xScale.domain(selection.map(xScale2.invert, xScale2));
-
-    svg.select('.x.axis') // replot xAxis with transition when brush used
-      .transition()
-      .call(xAxis);
-
-    maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
-    yScale.domain([0, maxY]); // Redefine yAxis domain based on highest y
-
-    svg.select('.y.axis') // Redraw yAxis
-      .transition()
-      .call(yAxis);
-
-    issue.select('path') // Redraw lines based on brush xAxis scale and domain
-      .transition()
-      .attr('d', d => (d.visible ? line(d.values) : null));
-  }
 }); // End Data callback function
-
-function findMaxY(data) { // Define function "findMaxY"
-  const maxYValues = data.map((d) => {
-    if (d.visible) {
-      return d3.max(d.values, value => // Return max rating value
-        value.rating);
-    }
-  });
-  return d3.max(maxYValues);
-}
