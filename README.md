@@ -11,3 +11,11 @@ The link to the second repository is here:
  * https://github.com/Grem25/TWEB-StoryTelling-Data
 
  Some dataset have been modified and adapted to our needs in order to have exactly what we wanted in order to be able to construct the graph using the right data.
+
+ You can always test the site by setting-up the site on your localmachine.
+ 1. clone the repository
+ 2. move inside the local directory
+```
+http-server .
+```
+3. Go 127.0.0.1:8080 in your browser and you will be able to see the same page as it is on first link presented above.
