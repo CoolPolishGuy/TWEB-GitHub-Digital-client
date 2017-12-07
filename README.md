@@ -15,7 +15,8 @@ The link to the second repository is here:
  You can always test the site by setting-up the site on your localmachine.
  1. clone the repository
  2. move inside the local directory
+ 3. type this command below
 ```
 http-server .
 ```
-3. Go 127.0.0.1:8080 in your browser and you will be able to see the same page as it is on first link presented above.
+4. Go 127.0.0.1:8080 in your browser and you will be able to see the same page as it is on first link presented above.
